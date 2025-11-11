@@ -6,7 +6,7 @@
   margin: 0;
   box-sizing: border-box;
 }
-:root{
+:root {
   /* shadows */
   --shadow-s: inset 0 1px 2px #ffffff30, /* top highlight */ 0 1px 2px #00000030,
     /* dark shadow */ 0 2px 4px #00000015; /* soft shadow */
@@ -15,39 +15,37 @@
   --shadow-l: inset 0 1px 2px #ffffff70, /* top highlight */ 0 4px 6px #00000030,
     /* dark shadow */ 0 6px 10px #00000015; /* soft shadow */
 }
-#root{
+#root {
   display: flex;
   flex-direction: column;
   gap: 2rem;
 }
-body{
+body {
   background-color: white;
   color: black;
   height: 100vh;
-  padding: 3rem;
+  padding: 1rem;
 }
-header{
+header {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10rem;
 }
-header h1{
+header h1 {
   display: flex;
   align-items: center;
   justify-content: center;
   max-height: min-content;
   font-size: 4rem;
 }
-.eventos{
+.eventos {
   gap: 1rem;
   display: flex;
   flex-direction: column;
+  padding-bottom: 1rem;
 }
-.eventos .busqueda{
-  flex: 1;
-}
-.busqueda input{
+.eventos input {
   font-size: 2rem;
   width: 100%;
   padding: 0.5rem 1rem;
@@ -56,16 +54,20 @@ header h1{
   border-radius: 10rem;
   box-shadow: var(--shadow-l);
 }
-.listaEventos{
-  display: flex;
-  flex-wrap: wrap;
+.lista {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
 }
-.evento{
+.evento {
   cursor: pointer;
   background-color: rgb(235, 235, 235);
   padding: 1rem;
   border-radius: 1rem;
   font-size: 1.5rem;
   box-shadow: var(--shadow-l);
+}
+.evento ul {
+  list-style: none;
+  padding-left: 0; 
 }
