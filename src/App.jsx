@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import Eventos from "./components/Eventos";
 import { getEvents } from "./api/api";
-import CrearEvento from "./components/CrearEvento";
 
 function App() {
   const [eventos, setEventos] = useState([]);
@@ -68,9 +67,6 @@ function App() {
           <button type="submit">Buscar</button>
         </form>
       </header>
-
-      {/* 🆕 Formulario para crear un nuevo evento */}
-      <CrearEvento onEventoCreado={() => cargarEventos()} />
 
       {/* 🎟️ Lista de eventos */}
       <Eventos eventos={eventos} />
