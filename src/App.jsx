@@ -1,19 +1,51 @@
-import Eventos from "./components/Eventos"
+import { useEffect, useState } from "react";
+import Eventos from "./components/Eventos";
+import { getEvents } from "./api/api"; 
+
 function App() {
-  const EVENTOS = [
-    { id: 1, nombre: "Evento 1", tipo1: 50, tipo2: 60, tipo3: 70 },
-    { id: 2, nombre: "Evento 2", tipo1: 50, tipo2: 60, tipo3: 70 },
-    { id: 3, nombre: "Evento 3", tipo1: 50, tipo2: 60, tipo3: 70 },
-    { id: 4, nombre: "Evento 4", tipo1: 50, tipo2: 60, tipo3: 70 },
-  ];
+  const [eventos, setEventos] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    async function cargarEventos() {
+      try {
+        const data = await getEvents();
+        console.log("Respuesta completa de la API:", data);
+
+        if (Array.isArray(data)) {
+          setEventos(data);
+        } else if (Array.isArray(data.events)) {
+          setEventos(data.events);
+        } else if (Array.isArray(data.data)) {
+          setEventos(data.data);
+        } else {
+          console.warn("⚠️ No se encontró lista de eventos en la respuesta.");
+          setEventos([]);
+        }
+
+      } catch (err) {
+        console.error("❌ Error al obtener eventos:", err);
+        setError("No se pudieron cargar los eventos 😢");
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    cargarEventos();
+  }, []);
+
+  if (loading) return <p>Cargando eventos...</p>;
+  if (error) return <p>{error}</p>;
+
   return (
     <>
       <header>
-        <h1>🎫TicketNow</h1>
+        <h1>🎫 TicketNow</h1>
       </header>
-      <Eventos eventos={EVENTOS}></Eventos>
+      <Eventos eventos={eventos} />
     </>
-  )
+  );
 }
 
-export default App
+export default App;

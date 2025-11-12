@@ -1,28 +1,25 @@
 import EventoCard from "./EventoCard";
-const Eventos = ({ eventos }) => {
+export default function Eventos({ eventos }) {
   return (
     <div className="eventos">
-      <div className="busqueda">
-        <input
-          type="text"
-          name=""
-          id=""
-          placeholder="Busque eventos, artistas o lugares"
-        />
-      </div>
-      <div className="listaEventos">
-        {eventos.map((evento) => (
-          <EventoCard
-            key={evento.id}
-            nombre={evento.nombre}
-            tipo1={evento.tipo1}
-            tipo2={evento.tipo2}
-            tipo3={evento.tipo3}
-          />
-        ))}
+      <h2>🎟️ Eventos Disponibles</h2>
+      <input type="text" />
+      <div className="lista">
+        {Array.isArray(eventos) && eventos.length > 0 ? (
+          eventos.map((ev) => (
+            <EventoCard
+              imagen={ev.image}
+              nombre={ev.name}
+              lugar={ev.location}
+              fecha={ev.date}
+              tickets={ev.tickets}
+              key={ev._id}
+            />
+          ))
+        ) : (
+          <p>No hay eventos disponibles</p>
+        )}
       </div>
     </div>
   );
-};
-
-export default Eventos;
+}
