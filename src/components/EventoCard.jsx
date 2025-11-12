@@ -4,10 +4,6 @@ const EventoCard = ({ imagen, nombre, lugar, fecha, tickets }) => {
       <img
         src={imagen}
         alt={nombre}
-        style={{
-          width: "100%",
-          marginBottom: "0.5rem",
-        }}
       />
       <h3>{nombre}</h3>
       <p>
