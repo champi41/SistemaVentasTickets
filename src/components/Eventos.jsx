@@ -7,7 +7,7 @@ export default function Eventos({ eventos }) {
       <div className="lista">
         {Array.isArray(eventos) && eventos.length > 0 ? (
           eventos.map((ev) => (
-            <EventoCard imagen={ev.image} nombre={ev.name} lugar={ev.location} fecha={ev.date} tickets={ev.tickets} key={ev._id}/>
+            <EventoCard nombre={ev.name} imagen={ev.image} lugar={ev.location} fecha={ev.date} tickets={ev.tickets}></EventoCard>
           ))
         ) : (
           <p>No hay eventos disponibles</p>

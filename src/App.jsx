@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Eventos from "./components/Eventos";
-import { getEvents } from "./api/api"; // tu API actual
+import { getEvents } from "./api/api"; 
 
 function App() {
   const [eventos, setEventos] = useState([]);
@@ -11,9 +11,8 @@ function App() {
     async function cargarEventos() {
       try {
         const data = await getEvents();
-        console.log("📦 Respuesta completa de la API:", data);
+        console.log("Respuesta completa de la API:", data);
 
-        // 👇 ajusta según lo que realmente devuelva tu API
         if (Array.isArray(data)) {
           setEventos(data);
         } else if (Array.isArray(data.events)) {
