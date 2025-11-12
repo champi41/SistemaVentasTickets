@@ -8,9 +8,7 @@ function CrearEvento({ onEventoCreado }) {
     date: "",
     location: "",
     image: "",
-    tickets: [
-      { type: "", price: "", available: "" },
-    ],
+    tickets: [{ type: "", price: "", available: "" }],
   });
 
   const [mensaje, setMensaje] = useState("");
@@ -62,7 +60,7 @@ function CrearEvento({ onEventoCreado }) {
   return (
     <div style={{ marginBottom: "2rem" }}>
       <h2>🆕 Crear Evento</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
         <input
           name="name"
           value={form.name}
@@ -78,17 +76,18 @@ function CrearEvento({ onEventoCreado }) {
           required
         />
         <input
-          type="datetime-local"
-          name="date"
-          value={form.date}
-          onChange={handleChange}
-          required
-        />
-        <input
           name="location"
           value={form.location}
           onChange={handleChange}
           placeholder="Ubicación"
+          required
+        />
+        {/* ⬇️ Campo de fecha movido aquí */}
+        <input
+          type="datetime-local"
+          name="date"
+          value={form.date}
+          onChange={handleChange}
           required
         />
         <input
@@ -101,12 +100,21 @@ function CrearEvento({ onEventoCreado }) {
 
         <h4>Tickets</h4>
         {form.tickets.map((ticket, i) => (
-          <div key={i}>
+          <div
+            key={i}
+            style={{
+              marginBottom: "10px", // separación entre tickets
+              border: "1px solid #ddd",
+              borderRadius: "8px",
+              padding: "8px",
+            }}
+          >
             <input
               placeholder="Tipo"
               value={ticket.type}
               onChange={(e) => handleTicketChange(i, "type", e.target.value)}
               required
+              style={{ display: "block", marginBottom: "6px" }}
             />
             <input
               type="number"
@@ -114,6 +122,7 @@ function CrearEvento({ onEventoCreado }) {
               value={ticket.price}
               onChange={(e) => handleTicketChange(i, "price", e.target.value)}
               required
+              style={{ display: "block", marginBottom: "6px" }}
             />
             <input
               type="number"
@@ -121,12 +130,17 @@ function CrearEvento({ onEventoCreado }) {
               value={ticket.available}
               onChange={(e) => handleTicketChange(i, "available", e.target.value)}
               required
+              style={{ display: "block" }}
             />
           </div>
         ))}
-        <button type="button" onClick={agregarTicket}>+ Agregar ticket</button>
-        <br /><br />
-        <button type="submit">Crear evento</button>
+        <button type="button" onClick={agregarTicket}>
+          + Agregar ticket
+        </button>
+
+        <button type="submit" style={{ marginTop: "10px" }}>
+          Crear evento
+        </button>
       </form>
       {mensaje && <p>{mensaje}</p>}
     </div>

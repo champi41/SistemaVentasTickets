@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import Eventos from "./components/Eventos";
-import { getEvents } from "./api/api";
 import CrearEvento from "./components/CrearEvento";
+import { getEvents } from "./api/api";
 
 function App() {
   const [eventos, setEventos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [busqueda, setBusqueda] = useState("");
+  const [mostrarModal, setMostrarModal] = useState(false); // 👈 NUEVO
 
-  // 🟢 Función para obtener eventos (puede incluir búsqueda)
   async function cargarEventos(query = "") {
     try {
       setLoading(true);
@@ -31,27 +31,26 @@ function App() {
     }
   }
 
-  // 🟡 Cargar eventos al inicio
   useEffect(() => {
     cargarEventos();
   }, []);
 
-  // 🔍 Buscar eventos por texto
   const manejarBusqueda = (e) => {
     e.preventDefault();
     cargarEventos(busqueda);
   };
+
+  const cerrarModal = () => setMostrarModal(false);
 
   if (loading) return <p>Cargando eventos...</p>;
   if (error) return <p>{error}</p>;
 
   return (
     <>
-      <header>
+      <header style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
         <h1>🎫 TicketNow</h1>
 
-        {/* 🔍 Barra de búsqueda */}
-        <form onSubmit={manejarBusqueda} style={{ marginBottom: "1rem" }}>
+        <form onSubmit={manejarBusqueda}>
           <input
             type="text"
             placeholder="Buscar evento..."
@@ -67,15 +66,57 @@ function App() {
           />
           <button type="submit">Buscar</button>
         </form>
+
+        {/* 👇 BOTÓN PARA MOSTRAR MODAL */}
+        <button onClick={() => setMostrarModal(true)}>+ Crear Evento</button>
       </header>
 
-      {/* 🆕 Formulario para crear un nuevo evento */}
-      <CrearEvento onEventoCreado={() => cargarEventos()} />
-
-      {/* 🎟️ Lista de eventos */}
       <Eventos eventos={eventos} />
+
+      {/* 👇 MODAL */}
+      {mostrarModal && (
+        <div style={styles.overlay}>
+          <div style={styles.modal}>
+            <button onClick={cerrarModal} style={styles.cerrar}>✖</button>
+            <CrearEvento onEventoCreado={() => { cerrarModal(); cargarEventos(); }} />
+          </div>
+        </div>
+      )}
     </>
   );
 }
+
+const styles = {
+  overlay: {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 1000,
+  },
+  modal: {
+    backgroundColor: "#fff",
+    borderRadius: "10px",
+    padding: "20px",
+    width: "400px",
+    maxHeight: "90vh",
+    overflowY: "auto",
+    position: "relative",
+  },
+  cerrar: {
+    position: "absolute",
+    top: "10px",
+    right: "10px",
+    background: "none",
+    border: "none",
+    fontSize: "1.2rem",
+    cursor: "pointer",
+  },
+};
 
 export default App;
