@@ -1,56 +1,49 @@
-import { useEffect, useState } from "react";
-import Home from "./components/Home";
-import Reservas from "./components/Reservas";
-import Checkout from "./components/Checkout";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Link,
+  useNavigate,
+} from "react-router-dom";
+import Home from "./pages/Home";
+import EventDetail from "./pages/EventDetail";
+import Checkout from "./pages/Checkout";
+import TestMail from "./components/testMail";
 
-const VISTAS = {
-  HOME: "home",
-  CHECKOUT: "checkout",
-  RESERVAS: "reservas",
-};
-function App() {
-  const [activeVista, setActiveVista] = useState(VISTAS.HOME);
-  const renderActiveView = () => {
-    switch (activeVista) {
-      case VISTAS.HOME:
-        return <Home></Home>;
-      case VISTAS.CHECKOUT:
-        return <Checkout></Checkout>;
-      case VISTAS.RESERVAS:
-        return <Reservas></Reservas>;
-      default:
-        return <Home></Home>;
-    }
-  };
-
+function Topbar() {
+  const nav = useNavigate();
   return (
-    <>
-      <header>
-        <h1>TicketNow</h1>
-        <div className="vistas">
-          <button
-            onClick={() => setActiveVista(VISTAS.HOME)}
-            className={activeVista === VISTAS.HOME ? "activo" : ""}
-          >
-            Home
-          </button>
-          <button
-            onClick={() => setActiveVista(VISTAS.CHECKOUT)}
-            className={activeVista === VISTAS.CHECKOUT ? "activo" : ""}
-          >
-            Checkout
-          </button>
-          <button
-            onClick={() => setActiveVista(VISTAS.RESERVAS)}
-            className={activeVista === VISTAS.RESERVAS ? "activo" : ""}
-          >
-            Reservas
-          </button>
-        </div>
-      </header>
-      <div className="main">{renderActiveView()}</div>
-    </>
+    <header
+      style={{
+        display: "flex",
+        gap: "2rem",
+        alignItems: "center",
+        justifyContent: "space-between",
+        padding: "1rem",
+      }}
+    >
+      <Link to="/" style={{ textDecoration: "none" }}>
+        <h1>🎫 TicketNow</h1>
+      </Link>
+      <nav style={{ display: "flex", gap: "1rem" }}>
+        <button onClick={() => nav("/")}>Eventos</button>
+        <TestMail /> {/* 👈 botón de prueba de correo, opcional */}
+      </nav>
+    </header>
   );
 }
 
-export default App;
+export default function App() {
+  return (
+    <BrowserRouter>
+      <div className="app">
+        <Topbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/events/:id" element={<EventDetail />} />
+          <Route path="/checkout/:reservation_id" element={<Checkout />} />
+        </Routes>
+      </div>
+    </BrowserRouter>
+  );
+}

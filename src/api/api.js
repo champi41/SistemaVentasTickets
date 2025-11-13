@@ -19,7 +19,11 @@ export async function createReservation(eventId, ticketType, quantity) {
   const res = await fetch(`${API_URL}/reservations`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ event_id: eventId, ticket_type: ticketType, quantity }),
+    body: JSON.stringify({
+      event_id: eventId,
+      ticket_type: ticketType,
+      quantity,
+    }),
   });
   if (!res.ok) throw new Error("Error al crear reserva");
   return res.json();

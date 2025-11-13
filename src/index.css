@@ -6,7 +6,7 @@
   margin: 0;
   box-sizing: border-box;
 }
-:root {
+:root{
   /* shadows */
   --shadow-s: inset 0 1px 2px #ffffff30, /* top highlight */ 0 1px 2px #00000030,
     /* dark shadow */ 0 2px 4px #00000015; /* soft shadow */
@@ -15,87 +15,57 @@
   --shadow-l: inset 0 1px 2px #ffffff70, /* top highlight */ 0 4px 6px #00000030,
     /* dark shadow */ 0 6px 10px #00000015; /* soft shadow */
 }
-#root {
+#root{
   display: flex;
   flex-direction: column;
   gap: 2rem;
 }
-body {
+body{
   background-color: white;
   color: black;
   height: 100vh;
   padding: 3rem;
 }
-header {
+header{
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   gap: 10rem;
 }
-header .vistas {
-  gap: 1rem;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-}
-header button {
-  cursor: pointer;
-  background-color: rgb(230, 230, 230);
-  border: none;
-  border-radius: 0.5rem;
-  padding: 0.5rem;
-  font-size: 1.5rem;
-  box-shadow: var(--shadow-s);
-  transition: all 0.3s ease;
-}
-header button:hover {
-  background-color: rgb(183, 183, 183);
-  transition: all 0.3s ease;
-  box-shadow: var(--shadow-l);
-}
-header button.activo{
-  background-color: rgb(196, 196, 196);
-}
-header button.activo:hover{
-  box-shadow: var(--shadow-s);
-}
-header h1 {
+header h1{
   display: flex;
   align-items: center;
   justify-content: center;
   max-height: min-content;
   font-size: 4rem;
 }
-.eventos {
+.eventos{
   gap: 1rem;
   display: flex;
   flex-direction: column;
 }
-.lista {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
-  gap: 1.5rem;
+.busqueda input{
+  font-size: 2rem;
+  width: 100%;
+  padding: 0.5rem 1rem;
+  background-color: rgb(235, 235, 235);
+  border: none;
+  border-radius: 10rem;
+  box-shadow: var(--shadow-l);
 }
-.evento {
+.lista{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+  gap: 1rem;
+}
+.evento{
   cursor: pointer;
+  background-color: rgb(235, 235, 235);
+  padding: 1rem;
   border-radius: 1rem;
   font-size: 1.5rem;
   box-shadow: var(--shadow-l);
-  transition: all 0.3s ease;
-  background-color: rgb(230, 230, 230);
 }
-.evento:hover {
-  transform: scale(1.075);
-  transition: all 0.3s ease;
-}
-.evento img {
+.evento img{
   width: 100%;
-  border-radius: 1rem;
-}
-.evento .info {
-  padding: 1rem;
-}
-.evento ul {
-  list-style: none;
-  padding-left: 0;
-  margin: 0;
 }
