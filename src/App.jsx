@@ -28,7 +28,7 @@ function Topbar({ validEventIds }) {
         <h1>🎫 TicketNow</h1>
       </Link>
 
-      <nav style={{ display: "flex", gap: "0.75rem", alignItems: "center" }}>
+      <nav className="navButtons">
         {/* Evento sorpresa */}
         <RandomEventButton validEventIds={validEventIds} className="nav-btn nav-btn--accent" />
 

@@ -64,6 +64,11 @@ header h1 {
 
 
 /* ===== BOTONES DE MENÚ ===== */
+.navButtons{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
 .nav-btn {
   background: var(--m500);
   color: white;
