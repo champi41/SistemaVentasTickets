@@ -85,9 +85,9 @@ export default function EventDetail() {
         {/* IZQUIERDA: info + selección */}
         <aside className="ed-left">
           <h1 className="ed-title">{ev.name}</h1>
-          <p className="ed-line">📅 {new Date(ev.date).toLocaleString("es-CL", { dateStyle: "full", timeStyle: "short" })}</p>
-          <p className="ed-line">📍 {ev.location}</p>
-          <p className="ed-line">🏷️ <strong>Categoría:</strong> {ev.category}</p>
+          <p className="ed-line">{new Date(ev.date).toLocaleString("es-CL", { dateStyle: "full", timeStyle: "short" })}</p>
+          <p className="ed-line">{ev.location}</p>
+          <p className="ed-line"><strong>Categoría:</strong> {ev.category}</p>
 
           <h2 className="ed-subtitle">Selecciona tus entradas</h2>
 

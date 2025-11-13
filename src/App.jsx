@@ -25,7 +25,7 @@ function Topbar({ validEventIds }) {
       }}
     >
       <Link to="/" style={{ textDecoration: "none" }}>
-        <h1>🎫 TicketNow</h1>
+        <h1>TicketNow</h1>
       </Link>
 
       <nav className="navButtons">
