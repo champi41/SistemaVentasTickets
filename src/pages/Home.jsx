@@ -1,9 +1,14 @@
 import { useEffect, useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { listEvents } from "../api/events";
+import { listEvents } from "../api/events.js";
+// Importamos el nuevo componente de sección
+import EventosList from "../components/EventosList.jsx";
 
-// 1. Recibir la prop setEventIds y darle un valor por defecto seguro
-export default function Home({ setEventIds = () => {} }) { 
+// 3. COMPONENTE "HOME" ACTUALIZADO (Contenedor)
+// Mantiene toda la lógica de estado y carga de datos.
+// Su 'return' ahora es mucho más simple.
+
+export default function Home({ setEventIds = () => {} }) {
   const [eventos, setEventos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -12,12 +17,11 @@ export default function Home({ setEventIds = () => {} }) {
 
   // PAGINACIÓN
   const [page, setPage] = useState(1);
-  const PAGE_SIZE = 8; // ← 8 eventos por página
+  const PAGE_SIZE = 8;
 
   const nav = useNavigate();
 
-  //   Cargar eventos desde API
-
+  // Cargar eventos desde API (sin cambios)
   async function cargar(qstr = "") {
     try {
       const data = await listEvents(qstr);
@@ -29,11 +33,8 @@ export default function Home({ setEventIds = () => {} }) {
         : [];
 
       setEventos(items);
-
-      // 2. EXTRAER y ENVIAR los ObjectIds a App.jsx
-      const ids = items.map(ev => ev._id);
-      setEventIds(ids); 
-
+      const ids = items.map((ev) => ev._id);
+      setEventIds(ids);
     } catch (e) {
       setError(e.message || "Error al cargar eventos");
     } finally {
@@ -42,12 +43,12 @@ export default function Home({ setEventIds = () => {} }) {
     }
   }
 
-  // cargar al inicio
+  // cargar al inicio (sin cambios)
   useEffect(() => {
     cargar();
   }, []);
 
-  // búsqueda con debounce
+  // búsqueda con debounce (sin cambios)
   useEffect(() => {
     if (q === "") {
       cargar();
@@ -65,10 +66,7 @@ export default function Home({ setEventIds = () => {} }) {
     return () => clearTimeout(delay);
   }, [q]);
 
-  // ===========================
-  //   PAGINACIÓN FRONTEND
-  // ===========================
-
+  // PAGINACIÓN FRONTEND (sin cambios)
   const totalPages = Math.max(1, Math.ceil(eventos.length / PAGE_SIZE));
 
   const eventosPagina = useMemo(() => {
@@ -79,98 +77,25 @@ export default function Home({ setEventIds = () => {} }) {
   if (error) return <p style={{ color: "crimson" }}>{error}</p>;
 
   // ===========================
-  //   RENDER
+  // RENDER (¡Aquí está el cambio!)
   // ===========================
   return (
-    <section className="eventos">
-      {/* BUSCADOR */}
-      <div className="busqueda">
-        <input
-          value={q}
-          onChange={(e) => {
-            setQ(e.target.value);
-            setLoading(true);
-          }}
-          placeholder="Buscar evento..."
-        />
-      </div>
-
-      {/* LISTADO DE EVENTOS */}
-      {loading && !isTyping ? (
-        <p>Cargando eventos...</p>
-      ) : (
-        <>
-          <div className="lista">
-            {eventosPagina.length ? (
-              eventosPagina.map((ev) => (
-                <article
-                  key={ev._id}
-                  className="evento"
-                  onClick={() => nav(`/events/${ev._id}`)}
-                >
-                  <div className="evento-imagen">
-                    <img src={ev.image} alt={ev.name} />
-                  </div>
-
-                  <div className="evento-info">
-                    <h3>{ev.name}</h3>
-                    <p>
-                      <strong>Categoría:</strong> {ev.category}
-                    </p>
-                    <p>
-                      <strong>Lugar:</strong> {ev.location}
-                    </p>
-                    <p>
-                      <strong>Fecha:</strong>{" "}
-                      {new Date(ev.date).toLocaleString("es-CL", {
-                        dateStyle: "medium",
-                        timeStyle: "short",
-                      })}
-                    </p>
-                  </div>
-                </article>
-              ))
-            ) : (
-              !loading && <p>No hay eventos disponibles</p>
-            )}
-          </div>
-
-          {/* PAGINACIÓN */}
-          {totalPages > 1 && (
-            <div className="paginacion">
-              {/* ANTERIOR */}
-              <button
-                onClick={() => setPage((p) => Math.max(1, p - 1))}
-                disabled={page === 1}
-              >
-                ‹ Anterior
-              </button>
-
-              {/* PÁGINAS */}
-              {Array.from({ length: totalPages }, (_, i) => {
-                const num = i + 1;
-                return (
-                  <button
-                    key={num}
-                    className={num === page ? "activa" : ""}
-                    onClick={() => setPage(num)}
-                  >
-                    {num}
-                  </button>
-                );
-              })}
-
-              {/* SIGUIENTE */}
-              <button
-                onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-                disabled={page === totalPages}
-              >
-                Siguiente ›
-              </button>
-            </div>
-          )}
-        </>
-      )}
-    </section>
+    // Renderizamos el componente EventosList y le pasamos todo
+    // lo que necesita como props.
+    <EventosList
+      q={q}
+      loading={loading}
+      isTyping={isTyping}
+      eventosPagina={eventosPagina}
+      totalPages={totalPages}
+      page={page}
+      // Pasamos los manejadores de eventos
+      onQueryChange={(newQuery) => {
+        setQ(newQuery);
+        setLoading(true); // Mantenemos la lógica original del onChange
+      }}
+      onEventoClick={(id) => nav(`/events/${id}`)}
+      onPageChange={setPage} // setPage se puede pasar directamente
+    />
   );
 }
