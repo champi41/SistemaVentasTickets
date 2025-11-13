@@ -1,5 +1,3 @@
-// src/pages/Home.jsx
-
 import { useEffect, useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { listEvents } from "../api/events";
@@ -18,9 +16,8 @@ export default function Home({ setEventIds = () => {} }) {
 
   const nav = useNavigate();
 
-  // ===========================
   //   Cargar eventos desde API
-  // ===========================
+
   async function cargar(qstr = "") {
     try {
       const data = await listEvents(qstr);
