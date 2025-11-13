@@ -17,26 +17,25 @@ export default function Home({ setEventIds = () => {} }) {
   const nav = useNavigate();
 
   // Cargar eventos desde API (sin cambios)
-  async function cargar(qstr = "") {
-    try {
-      const data = await listEvents(qstr);
-
-      const items = Array.isArray(data?.data)
-        ? data.data
-        : Array.isArray(data)
-        ? data
-        : [];
-
-      setEventos(items);
-      const ids = items.map((ev) => ev._id);
-      setEventIds(ids);
-    } catch (e) {
-      setError(e.message || "Error al cargar eventos");
-    } finally {
-      setLoading(false);
-      setIsTyping(false);
-    }
+ async function cargar(qstr = "") {
+  try {
+    const data = await listEvents(qstr, 100); // 🔥 aumentas el límite a 100
+    const items = Array.isArray(data?.data)
+      ? data.data
+      : Array.isArray(data)
+      ? data
+      : [];
+    setEventos(items);
+    const ids = items.map((ev) => ev._id);
+    setEventIds(ids);
+  } catch (e) {
+    setError(e.message || "Error al cargar eventos");
+  } finally {
+    setLoading(false);
+    setIsTyping(false);
   }
+}
+
 
   // cargar al inicio (sin cambios)
   useEffect(() => {

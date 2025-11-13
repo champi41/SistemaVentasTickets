@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getEvent } from "../api/events";
+import { getEvent } from "../api/events.js";
 import { createReservation } from "../api/reservations";
 import "../styles/event-detail.css"; // ← CSS del detalle separado
 
