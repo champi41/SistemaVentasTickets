@@ -57,18 +57,3 @@ export async function createEvent(eventData) {
   }
 }
 
-export const updateEvent = async (eventId, updatedData) => {
-  const response = await fetch(`${API_URL}/events/${eventId}`, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(updatedData),
-  });
-
-  if (!response.ok) {
-    throw new Error(`Error al actualizar evento (${response.status})`);
-  }
-
-  return response.json();
-};

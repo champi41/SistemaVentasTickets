@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import Eventos from "./components/Eventos";
 import CrearEvento from "./components/CrearEvento";
-import ActualizarEvento from "./components/ActualizarEvento"; 
 import { getEvents } from "./api/api";
 
 function App() {
@@ -10,7 +9,7 @@ function App() {
   const [error, setError] = useState(null);
   const [busqueda, setBusqueda] = useState("");
   const [mostrarModal, setMostrarModal] = useState(false);
-  const [modo, setModo] = useState("crear"); // 👈 "crear" o "editar"
+  const [modo, setModo] = useState("crear"); 
   const [eventoSeleccionado, setEventoSeleccionado] = useState(null);
 
   async function cargarEventos(query = "") {
