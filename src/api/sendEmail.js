@@ -1,37 +1,41 @@
-// src/api/sendEmail.js
-
-const WEBHOOK = import.meta.env.VITE_MAIL_WEBHOOK;
-const TOKEN = import.meta.env.VITE_MAIL_TOKEN;
+const MAIL_URL = import.meta.env.VITE_MAIL_WEBAPP_URL;
+const MAIL_TOKEN = import.meta.env.VITE_MAIL_TOKEN;
 
 /**
- * Envía un correo con las entradas usando el Apps Script.
- * No lanzamos error si el fetch falla (modo no-cors), sólo logueamos.
+ * Envía un correo HTML usando Google Apps Script (modo recomendado)
  */
 export async function sendTicketEmail({ to, subject, html }) {
-  if (!WEBHOOK || !TOKEN) {
-    console.error("❌ Faltan VITE_MAIL_WEBHOOK o VITE_MAIL_TOKEN en .env");
+  if (!MAIL_URL || !MAIL_TOKEN) {
+    console.error("❌ Faltan VITE_MAIL_WEBAPP_URL o VITE_MAIL_TOKEN en .env");
     return;
   }
 
   try {
-    const url = `${WEBHOOK}?token=${encodeURIComponent(TOKEN)}`;
-
-    await fetch(url, {
+    const res = await fetch(MAIL_URL, {
       method: "POST",
-      mode: "no-cors", // importante para que el navegador no bloquee por CORS
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
+        token: MAIL_TOKEN,
         to,
         subject,
         html,
       }),
     });
 
-    // En no-cors no podemos leer la respuesta, asumimos OK si no explota el fetch.
-    console.log("✅ Petición de envío de correo enviada al webhook");
+    if (!res.ok) {
+      const text = await res.text();
+      console.error("❌ Error al enviar correo:", res.status, text);
+      throw new Error(`HTTP ${res.status}`);
+    }
+
+    const data = await res.json().catch(() => ({}));
+
+    if (!data.success && !data.ok) {
+      console.error("⚠️ El servidor no confirmó el envío:", data);
+    } else {
+      console.log("✅ Correo enviado correctamente a", to);
+    }
   } catch (err) {
-    console.error("❌ Error al llamar al webhook de correo:", err);
+    console.error("❌ Error al enviar correo:", err);
   }
 }

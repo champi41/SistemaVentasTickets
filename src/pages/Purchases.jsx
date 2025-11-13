@@ -40,7 +40,7 @@ export default function Purchases() {
   return (
     <section className="eventos">
       <h2 style={{ color: "var(--m700)", marginBottom: "1rem" }}>
-        🧾 Historial de compras
+         Historial de compras
       </h2>
 
       {!compras.length ? (
@@ -68,7 +68,7 @@ export default function Purchases() {
               <ul style={{ marginLeft: "1.3rem" }}>
                 {p.tickets?.map((t) => (
                   <li key={t.code}>
-                    🎟️ {t.type} — <strong>Código:</strong> {t.code}
+                     {t.type} — <strong>Código:</strong> {t.code}
                   </li>
                 ))}
               </ul>
