@@ -286,3 +286,53 @@ header h1 {
   background: var(--m700);
 }
 
+/* ========================================
+   MODO OSCURO 🌙 — Elegante oscuro
+======================================== */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+body.dark-mode {
+  background-color: #121212;
+  color: #eaeaea;
+}
+
+body.dark-mode {
+  --m50:  #121212;
+  --m100: #1e1e1e;
+  --m200: #2a2a2a;
+  --m300: #383838;
+  --m400: #7e22ce;
+  --m500: #9333ea;
+  --m600: #a855f7;
+  --m700: #c084fc;
+  --m800: #e9d5ff;
+  --m900: #faf5ff;
+
+  --shadow-s: 0 2px 5px rgba(0, 0, 0, 0.5);
+  --shadow-m: 0 4px 10px rgba(0, 0, 0, 0.6);
+  --shadow-l: 0 8px 18px rgba(0, 0, 0, 0.7);
+}
+
+body.dark-mode .evento,
+body.dark-mode .historial-card {
+  background: var(--m100);
+  color: var(--m900);
+  border-top-color: var(--m400);
+}
+
+body.dark-mode .nav-btn {
+  background: var(--m400);
+  color: white;
+}
+body.dark-mode .nav-btn:hover {
+  background: var(--m500);
+}
+body.dark-mode .nav-btn-outline {
+  color: var(--m900);
+  border-color: var(--m400);
+}
+body.dark-mode .nav-btn-outline:hover {
+  background: var(--m300);
+}

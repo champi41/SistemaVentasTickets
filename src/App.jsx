@@ -1,6 +1,6 @@
 // src/App.jsx
 import { BrowserRouter, Routes, Route, Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import Home from "./pages/Home";
 import EventDetail from "./pages/EventDetail";
@@ -10,7 +10,37 @@ import Purchases from "./pages/Purchases";
 import TestMail from "./components/TestMail";
 import RandomEventButton from "./components/RandomEventButton";
 
-// Topbar recibe la lista de IDs válidos
+// ---- Botón de modo nocturno ----
+function DarkModeButton() {
+  const [dark, setDark] = useState(() => {
+    // Leer preferencia guardada
+    return localStorage.getItem("theme") === "dark";
+  });
+
+  useEffect(() => {
+    // Aplicar clase global al body
+    if (dark) {
+      document.body.classList.add("dark-mode");
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.body.classList.remove("dark-mode");
+      localStorage.setItem("theme", "light");
+    }
+  }, [dark]);
+
+  return (
+    <button
+      className="nav-btn"
+      onClick={() => setDark((d) => !d)}
+      title="Cambiar modo nocturno"
+      style={{ fontSize: "1.2rem" }}
+    >
+      {dark ? "🌙" : "☀️"}
+    </button>
+  );
+}
+
+// ---- Topbar ----
 function Topbar({ validEventIds }) {
   const nav = useNavigate();
 
@@ -28,44 +58,34 @@ function Topbar({ validEventIds }) {
         <h1>TicketNow</h1>
       </Link>
 
-      <nav className="navButtons">
-        {/* Evento sorpresa */}
+      <nav className="navButtons" style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
         <RandomEventButton validEventIds={validEventIds} className="nav-btn nav-btn--accent" />
 
-        {/* Ir a eventos */}
-        <button
-          className="nav-btn"
-          onClick={() => nav("/")}
-        >
+        <button className="nav-btn" onClick={() => nav("/")}>
           Eventos
         </button>
 
-        {/* Historial de compras */}
-        <button
-          className="nav-btn-outline"
-          onClick={() => nav("/purchases")}
-        >
+        {/* 🌙 Botón de modo nocturno */}
+        <DarkModeButton />
+
+        <button className="nav-btn-outline" onClick={() => nav("/purchases")}>
           Mis compras
         </button>
-
-       
       </nav>
     </header>
   );
 }
 
+// ---- App principal ----
 export default function App() {
-  // Estado con los ObjectId de eventos válidos (para el botón random)
   const [eventIds, setEventIds] = useState([]);
 
   return (
     <BrowserRouter>
       <div className="app">
-        {/* Pasamos la lista de IDs al Topbar */}
         <Topbar validEventIds={eventIds} />
 
         <Routes>
-          {/* Pasamos setEventIds a Home (si lo usas dentro) */}
           <Route path="/" element={<Home setEventIds={setEventIds} />} />
           <Route path="/events/:id" element={<EventDetail />} />
           <Route path="/checkout/:reservation_id" element={<Checkout />} />
