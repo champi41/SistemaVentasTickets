@@ -93,9 +93,11 @@ header h1 {
 
 .lista {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+  grid-template-columns: repeat(auto-fill, 25rem); /* tarjetas de ancho fijo */
+  justify-content: center;                         /* centrado bonito */
   gap: 1.5rem;
 }
+
 
 /* ========================================
    TARJETAS DE EVENTO
