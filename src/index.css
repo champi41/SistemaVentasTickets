@@ -1,71 +1,142 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 
+/* ========================================
+   PALETA MORADA
+======================================== */
+:root {
+  --m50:  #FAF5FF;
+  --m100: #F3E8FF;
+  --m200: #E9D5FF;
+  --m300: #D8B4FE;
+  --m400: #C084FC;
+  --m500: #A855F7;
+  --m600: #9333EA;
+  --m700: #7E22CE;
+  --m800: #6B21A8;
+  --m900: #3B0764;
+
+  /* sombras mejoradas */
+  --shadow-s: 0 2px 5px rgba(0, 0, 0, 0.12);
+  --shadow-m: 0 4px 10px rgba(0, 0, 0, 0.18);
+  --shadow-l: 0 8px 18px rgba(0, 0, 0, 0.22);
+}
+
+/* ========================================
+   BASE
+======================================== */
 * {
   font-family: "Inter", sans-serif;
-  padding: 0;
   margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
-:root{
-  /* shadows */
-  --shadow-s: inset 0 1px 2px #ffffff30, /* top highlight */ 0 1px 2px #00000030,
-    /* dark shadow */ 0 2px 4px #00000015; /* soft shadow */
-  --shadow-m: inset 0 1px 2px #ffffff50, /* top highlight */ 0 2px 4px #00000030,
-    /* dark shadow */ 0 4px 8px #00000015; /* soft shadow */
-  --shadow-l: inset 0 1px 2px #ffffff70, /* top highlight */ 0 4px 6px #00000030,
-    /* dark shadow */ 0 6px 10px #00000015; /* soft shadow */
+
+body {
+  background-color: var(--m50);
+  color: var(--m900);
+  height: 100vh;
+  padding: 3rem;
 }
-#root{
+
+#root {
   display: flex;
   flex-direction: column;
   gap: 2rem;
 }
-body{
-  background-color: white;
-  color: black;
-  height: 100vh;
-  padding: 3rem;
-}
-header{
+
+/* ========================================
+   HEADER
+======================================== */
+header {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10rem;
 }
-header h1{
+
+header h1 {
   display: flex;
   align-items: center;
   justify-content: center;
-  max-height: min-content;
   font-size: 4rem;
+  color: var(--m700);
 }
-.eventos{
-  gap: 1rem;
-  display: flex;
-  flex-direction: column;
-}
-.busqueda input{
+
+/* ========================================
+   BUSCADOR
+======================================== */
+.busqueda input {
   font-size: 2rem;
   width: 100%;
-  padding: 0.5rem 1rem;
-  background-color: rgb(235, 235, 235);
-  border: none;
-  border-radius: 10rem;
-  box-shadow: var(--shadow-l);
+  padding: 0.7rem 1.2rem;
+  background-color: var(--m100);
+  border: 2px solid var(--m300);
+  border-radius: 2rem;
+  box-shadow: var(--shadow-m);
+  transition: 0.25s ease-in-out;
 }
-.lista{
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+
+.busqueda input:focus {
+  outline: none;
+  border-color: var(--m600);
+  box-shadow: 0 0 0 4px rgba(148, 51, 234, 0.25);
+}
+
+/* ========================================
+   LISTA DE EVENTOS
+======================================== */
+.eventos {
+  display: flex;
+  flex-direction: column;
   gap: 1rem;
 }
-.evento{
+
+.lista {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+  gap: 1.5rem;
+}
+
+/* ========================================
+   TARJETAS DE EVENTO
+======================================== */
+.evento {
   cursor: pointer;
-  background-color: rgb(235, 235, 235);
+  background: white;
   padding: 1rem;
   border-radius: 1rem;
-  font-size: 1.5rem;
-  box-shadow: var(--shadow-l);
+  font-size: 1.4rem;
+  box-shadow: var(--shadow-m);
+  transition: 0.25s ease;
+  border-top: 6px solid var(--m500); /* barra estilo Ticketmaster */
 }
-.evento img{
+
+.evento:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-l);
+  border-top-color: var(--m700);
+}
+
+.evento img {
   width: 100%;
+  border-radius: 0.7rem;
+  object-fit: cover;
+  height: 200px;
+}
+
+/* Textos */
+.evento h3 {
+  margin: 0.5rem 0;
+  font-size: 1.4rem;
+  color: var(--m900);
+}
+
+.evento p {
+  margin: 0.3rem 0;
+  font-size: 1.1rem;
+  color: var(--m700);
+}
+
+.evento p strong {
+  color: var(--m600);
 }
