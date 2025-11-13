@@ -1,12 +1,7 @@
 import { useEffect, useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { listEvents } from "../api/events.js";
-// Importamos el nuevo componente de sección
 import EventosList from "../components/EventosList.jsx";
-
-// 3. COMPONENTE "HOME" ACTUALIZADO (Contenedor)
-// Mantiene toda la lógica de estado y carga de datos.
-// Su 'return' ahora es mucho más simple.
 
 export default function Home({ setEventIds = () => {} }) {
   const [eventos, setEventos] = useState([]);
@@ -76,12 +71,8 @@ export default function Home({ setEventIds = () => {} }) {
 
   if (error) return <p style={{ color: "crimson" }}>{error}</p>;
 
-  // ===========================
-  // RENDER (¡Aquí está el cambio!)
-  // ===========================
+  // RENDER
   return (
-    // Renderizamos el componente EventosList y le pasamos todo
-    // lo que necesita como props.
     <EventosList
       q={q}
       loading={loading}
@@ -89,13 +80,12 @@ export default function Home({ setEventIds = () => {} }) {
       eventosPagina={eventosPagina}
       totalPages={totalPages}
       page={page}
-      // Pasamos los manejadores de eventos
       onQueryChange={(newQuery) => {
         setQ(newQuery);
-        setLoading(true); // Mantenemos la lógica original del onChange
+        setLoading(true); 
       }}
       onEventoClick={(id) => nav(`/events/${id}`)}
-      onPageChange={setPage} // setPage se puede pasar directamente
+      onPageChange={setPage} 
     />
   );
 }
