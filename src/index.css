@@ -110,8 +110,12 @@ header h1 {
   font-size: 1.4rem;
   box-shadow: var(--shadow-m);
   transition: 0.25s ease;
-  border-top: 6px solid var(--m500); /* barra estilo Ticketmaster */
+  border-top: 6px solid var(--m500);
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* que llene la celda */
 }
+
 
 .evento:hover {
   transform: translateY(-5px);
@@ -141,4 +145,60 @@ header h1 {
 
 .evento p strong {
   color: var(--m600);
+}
+/* ========================================
+   PAGINACIÓN – Estilo morado profesional
+======================================== */
+.paginacion {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+.paginacion button {
+  padding: 0.55rem 1rem;
+  background: var(--m200);
+  color: var(--m800);
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  min-width: 48px;
+  box-shadow: var(--shadow-s);
+}
+
+/* Hover */
+.paginacion button:hover:not(:disabled) {
+  background: var(--m300);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-m);
+}
+
+/* Botón activo (página actual) */
+.paginacion button.activa {
+  background: var(--m600);
+  color: white;
+  font-weight: 700;
+  box-shadow: var(--shadow-m);
+  transform: scale(1.05);
+}
+
+/* Botones deshabilitados */
+.paginacion button:disabled {
+  background: var(--m100);
+  color: #999;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Botón especial para flechas (opcional si usas textos ‹ y ›) */
+.paginacion .arrow {
+  font-size: 1.2rem;
+  padding: 0.5rem 0.8rem;
 }
