@@ -1,19 +1,17 @@
 const API_URL = import.meta.env.VITE_API_URL;
 
-export async function getEvents(query = "") {
-  try {
-    const url = query
-      ? `${API_URL}/events?q=${encodeURIComponent(query)}`
-      : `${API_URL}/events`;
+export async function getEvents(query = "", limit = 100, page = 1) {
+  const url = new URL(`${API_URL}/events`);
+  url.searchParams.append("limit", limit);
+  url.searchParams.append("page", page);
+  if (query) url.searchParams.append("q", query);
 
-    const res = await fetch(url);
-    if (!res.ok) throw new Error("Error al obtener eventos");
-    return await res.json();
-  } catch (err) {
-    console.error(err);
-    return [];
-  }
+  const response = await fetch(url);
+  if (!response.ok) throw new Error("Error al obtener eventos");
+  return await response.json();
 }
+
+
 
 export async function createReservation(eventId, ticketType, quantity) {
   const res = await fetch(`${API_URL}/reservations`, {
@@ -58,3 +56,19 @@ export async function createEvent(eventData) {
     throw err;
   }
 }
+
+export const updateEvent = async (eventId, updatedData) => {
+  const response = await fetch(`${API_URL}/events/${eventId}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(updatedData),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Error al actualizar evento (${response.status})`);
+  }
+
+  return response.json();
+};

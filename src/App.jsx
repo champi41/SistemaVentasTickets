@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Eventos from "./components/Eventos";
 import CrearEvento from "./components/CrearEvento";
+import ActualizarEvento from "./components/ActualizarEvento"; 
 import { getEvents } from "./api/api";
 
 function App() {
@@ -8,21 +9,19 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [busqueda, setBusqueda] = useState("");
-  const [mostrarModal, setMostrarModal] = useState(false); // 👈 NUEVO
+  const [mostrarModal, setMostrarModal] = useState(false);
+  const [modo, setModo] = useState("crear"); // 👈 "crear" o "editar"
+  const [eventoSeleccionado, setEventoSeleccionado] = useState(null);
 
   async function cargarEventos(query = "") {
-    try {
+  try {
       setLoading(true);
-      const data = await getEvents(query);
+      const data = await getEvents(query, 100);
       console.log("Respuesta de la API:", data);
 
-      if (Array.isArray(data.data)) {
-        setEventos(data.data);
-      } else if (Array.isArray(data.events)) {
-        setEventos(data.events);
-      } else {
-        setEventos(Array.isArray(data) ? data : []);
-      }
+      if (Array.isArray(data.data)) setEventos(data.data);
+      else if (Array.isArray(data.events)) setEventos(data.events);
+      else setEventos(Array.isArray(data) ? data : []);
     } catch (err) {
       console.error("❌ Error al obtener eventos:", err);
       setError("No se pudieron cargar los eventos 😢");
@@ -40,7 +39,21 @@ function App() {
     cargarEventos(busqueda);
   };
 
-  const cerrarModal = () => setMostrarModal(false);
+  const cerrarModal = () => {
+    setMostrarModal(false);
+    setEventoSeleccionado(null);
+  };
+
+  const abrirModalCrear = () => {
+    setModo("crear");
+    setMostrarModal(true);
+  };
+
+  const abrirModalEditar = (evento) => {
+    setModo("editar");
+    setEventoSeleccionado(evento);
+    setMostrarModal(true);
+  };
 
   if (loading) return <p>Cargando eventos...</p>;
   if (error) return <p>{error}</p>;
@@ -67,19 +80,30 @@ function App() {
           <button type="submit">Buscar</button>
         </form>
 
-        {/* 👇 BOTÓN PARA MOSTRAR MODAL */}
-        <button onClick={() => setMostrarModal(true)}>+ Crear Evento</button>
+        <button onClick={abrirModalCrear}>+ Crear Evento</button>
       </header>
 
-      <Eventos eventos={eventos} />
+      <Eventos eventos={eventos} onEditar={abrirModalEditar} />
 
-      {/* 👇 MODAL */}
       {mostrarModal && (
         <div style={styles.overlay}>
-          <div style={styles.modal}>
-            <button onClick={cerrarModal} style={styles.cerrar}>✖</button>
-            <CrearEvento onEventoCreado={() => { cerrarModal(); cargarEventos(); }} />
-          </div>
+          {modo === "crear" ? (
+            <div style={styles.modal}>
+              <button onClick={cerrarModal} style={styles.cerrar}>✖</button>
+              <CrearEvento
+                onEventoCreado={() => {
+                  cerrarModal();
+                  cargarEventos();
+                }}
+              />
+            </div>
+          ) : (
+            <ActualizarEvento
+              evento={eventoSeleccionado}
+              onActualizado={() => cargarEventos()}
+              onCerrar={cerrarModal}
+            />
+          )}
         </div>
       )}
     </>
