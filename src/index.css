@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 
+
 /* ========================================
    PALETA MORADA
 ======================================== */
@@ -15,11 +16,11 @@
   --m800: #6B21A8;
   --m900: #3B0764;
 
-  /* sombras mejoradas */
   --shadow-s: 0 2px 5px rgba(0, 0, 0, 0.12);
   --shadow-m: 0 4px 10px rgba(0, 0, 0, 0.18);
   --shadow-l: 0 8px 18px rgba(0, 0, 0, 0.22);
 }
+
 
 /* ========================================
    BASE
@@ -34,7 +35,7 @@
 body {
   background-color: var(--m50);
   color: var(--m900);
-  height: 100vh;
+  min-height: 100vh;
   padding: 3rem;
 }
 
@@ -44,43 +45,113 @@ body {
   gap: 2rem;
 }
 
+
 /* ========================================
-   HEADER
+   HEADER + NAV
 ======================================== */
 header {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 10rem;
+  justify-content: space-between;
+  padding: 1rem 2rem;
 }
 
 header h1 {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 4rem;
+  font-size: 3.2rem;
+  font-weight: 800;
   color: var(--m700);
 }
+
+
+/* ===== BOTONES DE MENÚ ===== */
+.nav-btn {
+  background: var(--m500);
+  color: white;
+  padding: 0.65rem 1.3rem;
+  border: none;
+  border-radius: 10rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: var(--shadow-m);
+  transition: 0.25s ease-in-out;
+}
+
+.nav-btn:hover {
+  background: var(--m600);
+  box-shadow: var(--shadow-l);
+  transform: translateY(-3px);
+}
+
+.nav-btn:active {
+  background: var(--m700);
+  transform: scale(0.97);
+}
+
+/* Outline (Mis compras) */
+.nav-btn-outline {
+  background: transparent;
+  color: var(--m700);
+  border: 2px solid var(--m400);
+  padding: 0.6rem 1.2rem;
+  border-radius: 10rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.25s ease-in-out;
+}
+
+.nav-btn-outline:hover {
+  background: var(--m200);
+  border-color: var(--m600);
+  transform: translateY(-3px);
+}
+
+
+/* ===== BOTÓN EVENTO SORPRESA — MORADO NEÓN ===== */
+.nav-btn-accent {
+  background: linear-gradient(135deg, var(--m500), var(--m600));
+  color: white;
+  padding: 0.7rem 1.5rem;
+  border-radius: 10rem;
+  border: none;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 6px 14px rgba(147, 51, 234, 0.35);
+  transition: 0.22s ease-in-out;
+}
+
+.nav-btn-accent:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 26px rgba(147, 51, 234, 0.45);
+}
+
+.nav-btn-accent:active {
+  transform: scale(0.96);
+}
+
 
 /* ========================================
    BUSCADOR
 ======================================== */
 .busqueda input {
-  font-size: 2rem;
+  font-size: 1.8rem;
   width: 100%;
   padding: 0.7rem 1.2rem;
   background-color: var(--m100);
   border: 2px solid var(--m300);
   border-radius: 2rem;
   box-shadow: var(--shadow-m);
-  transition: 0.25s ease-in-out;
+  transition: 0.25s ease;
 }
 
 .busqueda input:focus {
   outline: none;
   border-color: var(--m600);
-  box-shadow: 0 0 0 4px rgba(148, 51, 234, 0.25);
+  box-shadow: 0 0 0 4px rgba(147, 51, 234, 0.25);
 }
+
 
 /* ========================================
    LISTA DE EVENTOS
@@ -93,9 +164,9 @@ header h1 {
 
 .lista {
   display: grid;
-  grid-template-columns: repeat(auto-fill, 25rem); /* tarjetas de ancho fijo */
-  justify-content: center;                         /* centrado bonito */
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, 25rem);
+  justify-content: center;
+  gap: 1.6rem;
 }
 
 
@@ -103,19 +174,14 @@ header h1 {
    TARJETAS DE EVENTO
 ======================================== */
 .evento {
-  cursor: pointer;
   background: white;
-  padding: 1rem;
   border-radius: 1rem;
-  font-size: 1.4rem;
+  padding: 1rem;
   box-shadow: var(--shadow-m);
   transition: 0.25s ease;
   border-top: 6px solid var(--m500);
-  display: flex;
-  flex-direction: column;
-  height: 100%; /* que llene la celda */
+  cursor: pointer;
 }
-
 
 .evento:hover {
   transform: translateY(-5px);
@@ -125,37 +191,36 @@ header h1 {
 
 .evento img {
   width: 100%;
-  border-radius: 0.7rem;
-  object-fit: cover;
   height: 200px;
+  object-fit: cover;
+  border-radius: 0.7rem;
 }
 
-/* Textos */
 .evento h3 {
-  margin: 0.5rem 0;
-  font-size: 1.4rem;
+  margin: 0.7rem 0;
+  font-size: 1.35rem;
   color: var(--m900);
 }
 
 .evento p {
-  margin: 0.3rem 0;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   color: var(--m700);
+  margin: 0.2rem 0;
 }
 
 .evento p strong {
   color: var(--m600);
 }
+
+
 /* ========================================
-   PAGINACIÓN – Estilo morado profesional
+   PAGINACIÓN
 ======================================== */
 .paginacion {
   display: flex;
   justify-content: center;
-  align-items: center;
-  gap: 0.6rem;
+  gap: 0.5rem;
   margin-top: 2rem;
-  flex-wrap: wrap;
 }
 
 .paginacion button {
@@ -167,38 +232,52 @@ header h1 {
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.25s ease;
-  min-width: 48px;
+  transition: 0.25s ease;
   box-shadow: var(--shadow-s);
 }
 
-/* Hover */
 .paginacion button:hover:not(:disabled) {
   background: var(--m300);
   transform: translateY(-3px);
-  box-shadow: var(--shadow-m);
 }
 
-/* Botón activo (página actual) */
 .paginacion button.activa {
   background: var(--m600);
   color: white;
-  font-weight: 700;
   box-shadow: var(--shadow-m);
-  transform: scale(1.05);
 }
 
-/* Botones deshabilitados */
 .paginacion button:disabled {
   background: var(--m100);
-  color: #999;
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
+  color: #aaa;
 }
 
-/* Botón especial para flechas (opcional si usas textos ‹ y ›) */
-.paginacion .arrow {
-  font-size: 1.2rem;
-  padding: 0.5rem 0.8rem;
+
+/* ========================================
+   HISTORIAL (Purchases)
+======================================== */
+
+.historial-card {
+  background: white;
+  padding: 1.2rem;
+  border-radius: 1rem;
+  box-shadow: var(--shadow-m);
+  margin-bottom: 1rem;
 }
+
+/* Botón limpiar historial */
+.clear-btn {
+  background: var(--m500);
+  color: white;
+  border: none;
+  padding: 0.7rem 1.4rem;
+  border-radius: 10rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+.clear-btn:hover {
+  background: var(--m700);
+}
+

@@ -102,7 +102,7 @@ function renderTicketEmail({ purchase, event, toName }) {
     items.length > 0
       ? items
           .map(
-            (it, idx) => `
+            (it) => `
             <tr>
               <td style="padding:8px 12px;border-bottom:1px solid #e5e7eb;">${
                 it.type || "-"
@@ -277,12 +277,10 @@ export default function Checkout() {
     })();
   }, [reservation_id]);
 
-  // Expira 5 minutos desde que entras a Checkout
-const expiresAt = useMemo(() => {
-  return new Date(Date.now() + 5 * 60 * 1000);
-}, []);
-
-
+  const expiresAt = useMemo(
+    () => (resv?.expires_at ? new Date(resv.expires_at) : null),
+    [resv]
+  );
   const expired = expiresAt ? now > expiresAt : false;
 
   const displayItems = useMemo(
@@ -312,6 +310,18 @@ const expiresAt = useMemo(() => {
 
       // 1) confirmar compra en API
       const purchase = await checkout({ reservation_id, buyer });
+
+      // 1.1) guardar id de la compra en localStorage para historial
+      try {
+        const KEY = "purchase_ids";
+        const prev = JSON.parse(localStorage.getItem(KEY) || "[]");
+        const id = purchase._id || purchase.id;
+        if (id && !prev.includes(id)) {
+          localStorage.setItem(KEY, JSON.stringify([...prev, id]));
+        }
+      } catch (e) {
+        console.error("No se pudo guardar el historial en localStorage", e);
+      }
 
       // 2) asegurar evento
       let ev = event;

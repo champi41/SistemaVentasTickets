@@ -4,48 +4,72 @@ import { getPurchase } from "../api/purchases";
 
 export default function Purchases() {
   const [ids, setIds] = useState([]);
-  const [items, setItems] = useState([]);
+  const [compras, setCompras] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // Cargar IDs guardados en localStorage
   useEffect(() => {
-    const key = "purchase_ids";
-    const saved = JSON.parse(localStorage.getItem(key) || "[]");
+    const saved = JSON.parse(localStorage.getItem("purchase_ids") || "[]");
     setIds(saved);
   }, []);
 
+  // Obtener detalles de cada compra
   useEffect(() => {
     (async () => {
       try {
         setLoading(true);
-        const out = [];
+        const lista = [];
+
         for (const id of ids) {
           try {
-            const p = await getPurchase(id); // ← usa la función nombrada
-            out.push(p);
-          } catch {}
+            const compra = await getPurchase(id);
+            lista.push(compra);
+          } catch (e) {
+            console.error("Error al obtener compra:", e);
+          }
         }
-        setItems(out);
+        setCompras(lista);
       } finally {
         setLoading(false);
       }
     })();
   }, [ids]);
 
-  if (loading) return <p>Cargando historial…</p>;
+  if (loading) return <p style={{ padding: "1rem" }}>Cargando historial…</p>;
+
   return (
-    <section>
-      <h2>Historial de compras</h2>
-      {!items.length ? <p>Sin compras aún.</p> : (
+    <section className="eventos">
+      <h2 style={{ color: "var(--m700)", marginBottom: "1rem" }}>
+        🧾 Historial de compras
+      </h2>
+
+      {!compras.length ? (
+        <p>No tienes compras registradas aún.</p>
+      ) : (
         <div className="lista">
-          {items.map(p => (
+          {compras.map((p) => (
             <article key={p._id} className="evento">
-              <h3>Compra #{p._id.slice(-6)}</h3>
-              <p><strong>Total:</strong> ${p.total_price?.toLocaleString()}</p>
-              <p><strong>Confirmada:</strong> {new Date(p.confirmed_at).toLocaleString("es-CL")}</p>
-              <h4>Tickets</h4>
-              <ul>
-                {p.tickets?.map(t => (
-                  <li key={t.code}>{t.type} — Código: {t.code}</li>
+              <h3>Compra #{p._id?.slice(-6) || "??"}</h3>
+
+              <p>
+                <strong>Total:</strong>{" "}
+                {Number(p.total_price).toLocaleString("es-CL")}
+              </p>
+
+              <p>
+                <strong>Fecha:</strong>{" "}
+                {new Date(p.confirmed_at).toLocaleString("es-CL")}
+              </p>
+
+              <h4 style={{ marginTop: "0.7rem", color: "var(--m700)" }}>
+                Entradas:
+              </h4>
+
+              <ul style={{ marginLeft: "1.3rem" }}>
+                {p.tickets?.map((t) => (
+                  <li key={t.code}>
+                    🎟️ {t.type} — <strong>Código:</strong> {t.code}
+                  </li>
                 ))}
               </ul>
             </article>
