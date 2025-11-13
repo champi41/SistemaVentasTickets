@@ -4,7 +4,8 @@ import { useEffect, useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { listEvents } from "../api/events";
 
-export default function Home() {
+// 1. Recibir la prop setEventIds y darle un valor por defecto seguro
+export default function Home({ setEventIds = () => {} }) { 
   const [eventos, setEventos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -31,6 +32,11 @@ export default function Home() {
         : [];
 
       setEventos(items);
+
+      // 2. EXTRAER y ENVIAR los ObjectIds a App.jsx
+      const ids = items.map(ev => ev._id);
+      setEventIds(ids); 
+
     } catch (e) {
       setError(e.message || "Error al cargar eventos");
     } finally {
