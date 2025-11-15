@@ -1,44 +1,15 @@
 // src/App.jsx
 import { BrowserRouter, Routes, Route, Link, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 import Home from "./pages/Home";
 import EventDetail from "./pages/EventDetail";
 import Checkout from "./pages/Checkout";
 import Purchases from "./pages/Purchases";
 
-import TestMail from "./components/TestMail";
 import RandomEventButton from "./components/RandomEventButton";
-
-// ---- Botón de modo nocturno ----
-function DarkModeButton() {
-  const [dark, setDark] = useState(() => {
-    // Leer preferencia guardada
-    return localStorage.getItem("theme") === "dark";
-  });
-
-  useEffect(() => {
-    // Aplicar clase global al body
-    if (dark) {
-      document.body.classList.add("dark-mode");
-      localStorage.setItem("theme", "dark");
-    } else {
-      document.body.classList.remove("dark-mode");
-      localStorage.setItem("theme", "light");
-    }
-  }, [dark]);
-
-  return (
-    <button
-      className="nav-btn"
-      onClick={() => setDark((d) => !d)}
-      title="Cambiar modo nocturno"
-      style={{ fontSize: "1.2rem" }}
-    >
-      {dark ? "🌙" : "☀️"}
-    </button>
-  );
-}
+import ThemeSwitch from "./components/ThemeSwitch";
+import Loader from "./components/Loader"; // ⬅ nuevo loader morado
 
 // ---- Topbar ----
 function Topbar({ validEventIds }) {
@@ -48,29 +19,40 @@ function Topbar({ validEventIds }) {
     <header
       style={{
         display: "flex",
-        gap: "2rem",
+        gap: "rem",
         alignItems: "center",
         justifyContent: "space-between",
         padding: "1rem",
       }}
     >
       <Link to="/" style={{ textDecoration: "none" }}>
-        <h1>TicketNow</h1>
-      </Link>
+  <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+    <h1 className="neon-title">TicketNow</h1>
+    <Loader />
+  </div>
+</Link>
 
-      <nav className="navButtons" style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-        <RandomEventButton validEventIds={validEventIds} className="nav-btn nav-btn--accent" />
+
+      <nav
+        className="navButtons"
+        style={{ display: "flex", alignItems: "center", gap: "1rem" }}
+      >
+        <RandomEventButton
+          validEventIds={validEventIds}
+          className="nav-btn nav-btn--accent"
+        />
 
         <button className="nav-btn" onClick={() => nav("/")}>
           Eventos
         </button>
 
-        {/* 🌙 Botón de modo nocturno */}
-        <DarkModeButton />
+        
 
         <button className="nav-btn-outline" onClick={() => nav("/purchases")}>
           Mis compras
         </button>
+
+        <ThemeSwitch />
       </nav>
     </header>
   );
