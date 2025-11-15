@@ -9,50 +9,33 @@ import Purchases from "./pages/Purchases";
 
 import RandomEventButton from "./components/RandomEventButton";
 import ThemeSwitch from "./components/ThemeSwitch";
-import Loader from "./components/Loader"; // ⬅ nuevo loader morado
+import Loader from "./components/Loader"; // ⬅ loader morado
 
 // ---- Topbar ----
 function Topbar({ validEventIds }) {
   const nav = useNavigate();
 
   return (
-    <header
-      style={{
-        display: "flex",
-        gap: "rem",
-        alignItems: "center",
-        justifyContent: "space-between",
-        padding: "1rem",
-      }}
-    >
+    <header className="topbar">
       <Link to="/" style={{ textDecoration: "none" }}>
-  <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-    <h1 className="neon-title">TicketNow</h1>
-    <Loader />
-  </div>
-</Link>
+        {/* wrapper para título + loader */}
+        <div className="topbar-brand">
+          <h1 className="neon-title">TicketNow</h1>
+          <Loader /> {/* ticket girando */}
+        </div>
+      </Link>
 
-
-      <nav
-        className="navButtons"
-        style={{ display: "flex", alignItems: "center", gap: "1rem" }}
-      >
-        <RandomEventButton
-          validEventIds={validEventIds}
-          className="nav-btn nav-btn--accent"
-        />
+      <nav className="navButtons">
+        
 
         <button className="nav-btn" onClick={() => nav("/")}>
           Eventos
         </button>
-
-        
-
         <button className="nav-btn-outline" onClick={() => nav("/purchases")}>
-          Mis compras
+          Compras
         </button>
-
         <ThemeSwitch />
+        
       </nav>
     </header>
   );

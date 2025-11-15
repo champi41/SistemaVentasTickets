@@ -92,9 +92,32 @@
   position: absolute; inset: 0; width: 100%; height: 100%; border: 0;
 }
 
-/* Responsive */
+/* Responsive general */
 @media (max-width: 980px) {
   .ed-grid { grid-template-columns: 1fr; }
   .ed-left { position: static; }
   .ed-poster img { height: 340px; }
+}
+
+/* Responsive extra para móvil chico */
+@media (max-width: 600px) {
+  .ed {
+    padding: 1rem 0.6rem;
+  }
+
+  .ed-title {
+    font-size: 1.6rem;
+  }
+
+  .ed-ticket-row {
+    grid-template-columns: 1fr;
+  }
+
+  .ed-qty {
+    justify-content: flex-end;
+  }
+
+  .ed-reserve {
+    width: 100%;
+  }
 }
